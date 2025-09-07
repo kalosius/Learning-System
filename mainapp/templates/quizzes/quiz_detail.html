@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ quiz.title }}</h1>
+
+<form action="{% url 'quizzes:submit' quiz.id %}" method="post" class="space-y-6">
+    {% csrf_token %}
+    {% for question in questions %}
+    <div class="bg-white p-4 rounded shadow">
+        <p class="font-semibold mb-2">{{ forloop.counter }}. {{ question.text }}</p>
+        {% for choice in question.choices.all %}
+        <label class="block">
+            <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" class="mr-2">
+            {{ choice.text }}
+        </label>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        Submit Quiz
+    </button>
+</form>
+{% endblock %}

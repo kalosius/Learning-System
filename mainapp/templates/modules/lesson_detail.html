@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ lesson.title }}</h1>
+<div class="prose">
+    {{ lesson.content|safe }}
+</div>
+{% endblock %}

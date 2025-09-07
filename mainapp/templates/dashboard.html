@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Welcome, {{ request.user.username }}</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold">Enrolled Courses</h2>
+        <p class="text-xl mt-2">{{ enrolled_courses_count }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold">Assignments Pending</h2>
+        <p class="text-xl mt-2">{{ pending_assignments_count }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold">Quizzes Pending</h2>
+        <p class="text-xl mt-2">{{ pending_quizzes_count }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Submission{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+    <h1 class="text-xl font-bold mb-4">Your Submission</h1>
+    <p class="mb-4">{{ submission.content }}</p>
+
+    <p class="text-sm text-gray-500">
+        Submitted on: {{ submission.submitted_at }}  
+        {% if submission.grade %}
+            | Grade: <span class="font-semibold">{{ submission.grade }}</span>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}

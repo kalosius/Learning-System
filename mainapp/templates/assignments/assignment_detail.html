@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Assignment{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">{{ assignment.title }}</h1>
+    <p class="mb-4 text-gray-700">{{ assignment.description }}</p>
+    <p class="text-sm text-gray-500">Due: {{ assignment.due_date }}</p>
+
+    <form action="{% url 'assignments:submit' assignment.id %}" method="post" class="mt-6">
+        {% csrf_token %}
+        <textarea name="submission" rows="5" class="w-full border rounded p-3 mb-3" placeholder="Write your answer..."></textarea>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+    </form>
+</div>
+{% endblock %}
