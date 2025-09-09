@@ -9,7 +9,7 @@
 <ul class="space-y-2">
     {% for module in course_modules %}
     <li>
-        <a href="{% url 'modules:detail' module.id %}" class="text-blue-600 hover:underline">
+        <a href="{% url 'modules_detail' module.id %}" class="text-blue-600 hover:underline">
             {{ module.title }}
         </a>
     </li>

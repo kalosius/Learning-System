@@ -22,8 +22,8 @@
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <a href="{% url 'dashboard' %}" class="text-xl font-bold text-blue-600">OLMS</a>
             <nav class="space-x-4">
-                <a href="{% url 'courses:list' %}" class="hover:text-blue-600">Courses</a>
-                <a href="{% url 'users:profile' %}" class="hover:text-blue-600">Profile</a>
+                <a href="{% url 'courses_list' %}" class="hover:text-blue-600">Courses</a>
+                <a href="{% url 'users_profile' %}" class="hover:text-blue-600">Profile</a>
                 <a href="{% url 'logout' %}" class="hover:text-red-600">Logout</a>
             </nav>
         </div>
@@ -34,9 +34,9 @@
         <aside class="w-64 bg-white rounded shadow p-4 mr-6">
             <ul class="space-y-2">
                 <li><a href="{% url 'dashboard' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Dashboard</a></li>
-                <li><a href="{% url 'courses:list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Courses</a></li>
-                <li><a href="{% url 'users:user_list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Users</a></li>
-                <li><a href="{% url 'announcements:list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Announcements</a></li>
+                <li><a href="{% url 'courses_list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Courses</a></li>
+                <li><a href="{% url 'users_user_list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Users</a></li>
+                <li><a href="{% url 'announcements_list' %}" class="block py-2 px-3 hover:bg-gray-100 rounded">Announcements</a></li>
             </ul>
         </aside>
 
@@ -47,7 +47,7 @@
             {% endblock %}
         </main>
     </div>
-
+<br><br><br><br><br>
     <footer class="bg-white shadow mt-6 p-4 text-center text-gray-600">
         &copy; {{ current_year }} OLMS. All rights reserved.
     </footer>

@@ -22,10 +22,21 @@ class Institution(models.Model):
 
 
 class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('student', 'Student'),
+        ('instructor', 'Instructor'),
+        ('admin', 'Admin'),
+    ]
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True)
     phone = models.CharField(max_length=32, blank=True)
     is_email_verified = models.BooleanField(default=False)
     is_phone_verified = models.BooleanField(default=False)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student')
+    date_joined = models.DateTimeField(default=timezone.now)
+    last_active = models.DateTimeField(null=True, blank=True)
+    profile_completed = models.BooleanField(default=False)
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
 
 
 
@@ -54,6 +65,9 @@ class AcademicYear(models.Model):
     end_date = models.DateField()
     is_current = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 
     class Meta:
         unique_together = ("institution", "name")
@@ -66,6 +80,9 @@ class Term(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
+    def __str__(self):
+        return f"{self.name} ({self.academic_year.name})"
+
 
     class Meta:
         unique_together = ("academic_year", "name")
@@ -73,7 +90,11 @@ class Term(models.Model):
 class Department(models.Model):
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
-
+    def __str__(self):
+        return self.name
+    
+    def __str__(self):
+        return self.name
 
     class Meta:
         unique_together = ("institution", "name")
@@ -86,6 +107,8 @@ class Program(models.Model):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     description = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.name
 
     class Meta:
         unique_together = ("institution", "code")
@@ -99,6 +122,8 @@ class Course(models.Model):
     credits = models.DecimalField(max_digits=4, decimal_places=1, default=3)
     is_published = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.title
 
     class Meta:
         unique_together = ("institution", "code")
@@ -114,6 +139,9 @@ class CourseRun(models.Model): # aka Section/Offering in a specific term
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.course.code} - {self.term.name} ({self.name})"
+
 
     class Meta:
         unique_together = ("course", "term", "name")
@@ -126,6 +154,7 @@ class Enrollment(models.Model):
     date_enrolled = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
+   
 
     class Meta:
         unique_together = ("course_run", "student")
@@ -136,6 +165,8 @@ class Module(models.Model):
     title = models.CharField(max_length=255)
     order = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ["order", "id"]
@@ -257,6 +288,9 @@ class Announcement(models.Model):
     message = models.TextField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title + " - " + self.created_by.username
 
 # For student–teacher communication or peer discussions.
 class Discussion(models.Model):

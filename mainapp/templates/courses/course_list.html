@@ -9,7 +9,7 @@
     <div class="bg-white p-4 rounded shadow hover:shadow-lg transition">
         <h2 class="text-lg font-semibold">{{ course.title }}</h2>
         <p class="text-gray-600 mt-1">{{ course.description|truncatechars:100 }}</p>
-        <a href="{% url 'courses:detail' course.id %}" class="mt-2 inline-block text-blue-600 hover:underline">View</a>
+        <a href="{% url 'courses_detail' course.id %}" class="mt-2 inline-block text-blue-600 hover:underline">View</a>
     </div>
     {% endfor %}
 </div>

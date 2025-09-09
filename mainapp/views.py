@@ -9,6 +9,8 @@ from .models import (
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+User = get_user_model()  # ensures your custom User model is used
 
 # -----------------------
 # Dashboard
@@ -178,8 +180,9 @@ class AnnouncementListView(ListView):
     context_object_name = 'announcements'
 
     def get_queryset(self):
-        return Announcement.objects.filter(institution=self.request.user.institution)
-
+        if hasattr(self.request.user, 'institution') and self.request.user.institution:
+            return Announcement.objects.filter(institution=self.request.user.institution).order_by('-created_at')
+        return Announcement.objects.all().order_by('-created_at')
 
 
 
@@ -200,11 +203,11 @@ def register_view(request):
 
         if password1 != password2:
             messages.error(request, "Passwords do not match.")
-            return redirect("users:register")
+            return redirect("register")
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already registered.")
-            return redirect("users:register")
+            return redirect("register")
 
         user = User.objects.create_user(
             username=email,
@@ -217,7 +220,7 @@ def register_view(request):
         user.save()
 
         messages.success(request, "Account created successfully. You can now login.")
-        return redirect("users:login")
+        return redirect("login")
 
     return render(request, "users/register.html")
 
@@ -232,10 +235,10 @@ def login_view(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("core:dashboard")
+            return redirect("dashboard")
         else:
             messages.error(request, "Invalid email or password.")
-            return redirect("users:login")
+            return redirect("login")
     return render(request, "users/login.html")
 
 
@@ -245,5 +248,5 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect("users:login")
+    return redirect("login")
 
